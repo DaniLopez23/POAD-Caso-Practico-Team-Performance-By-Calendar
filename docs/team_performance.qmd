@@ -1,0 +1,166 @@
+---
+title: "Caso Práctico: Diseño de un Proyecto de Análisis de Datos Deportivos"
+subtitle: "Programación y Análisis de Datos Deportivos, Máster en Análisis de Datos Deportivos"
+author: "Daniel López Paredes"
+date: "10/01/2026"
+format: docx
+---
+
+# Caso Práctico: Impacto del calendario competitivo en el rendimiento deportivo de un equipo de fútbol profesional
+
+## 1. **Introducción**
+
+La evolución y crecimiento del fútbol y lo que lo rodea, ha llevado a un aumento significativo del número de partidos disputados durante la competición. Ya no solo en la élite sino en competiciones de categorias más bajas al encontrarse un número de equipos más elevado en una única competición. Esto implica llevar a cabo una preparación más minuciosa para gestionar cargas y evitar lesiones sin perder el rendimiento que un equipo necesita para seguir ganando y compitiendo.
+
+Por ello, en los siguientes apartados, se explica todo el proceso, herramientas y consideraciones a tener en cuenta para llevar a cabo un análisis sobre el rendimiento de un equipo de fútbol en base al calendario y al número de partidos disputados durante la competición.
+
+------------------------------------------------------------------------
+
+## 2. **Objetivo del análisis**
+
+El principal objetivo de este análisis es estudiar cómo el calendario competitivo (frecuencia de partidos, descansos, viajes y tipo de competición) impacta en el rendimiento del equipo, para mejorar la toma de decisiones deportivas. Con este análisis se busca responder diferentes preguntas asociadas a cómo afecta el número de partidos jugados y el calendario al rendimiento general del equipo:
+
+-   ¿Cómo varía el rendimiento del equipo cuando juega cada 3 días o cada 5–7 días?
+-   En el caso de jugar varias competiciones ¿influye el tipo de competición?
+-   ¿Hay diferencias claras entre: partidos en casa vs fuera o viajes cortos vs largos?
+-   ¿Que impacto tiene el momento de la competición con el número de goles, pases, posesiones, lesiones, etc.?
+-   ¿En qué momentos de la temporada el equipo rinde peor? ¿a qué factores relacionados con la competición el entrenamiento puede estar asociado?
+
+Esto es muy importante ya que permite a los cuerpos técnicos gestionar sus equipos de manera óptima. Se podría mejorar la planificación de los entrenamientos en base a las cargas físicas, detectar bajones de rendimiento no asociados al estado físico sino a un componente más táctico o psicológico, o simplemente dar una visión general del estado de forma del equipo a lo largo de la competición.
+
+------------------------------------------------------------------------
+
+## 3. **Datos necesarios**
+
+Para llevar a cabo este análisis se necesitan diferentes tipos de variables relacionadas con las cargas de los partido, de las sesiones de entrenamiento semanales y de estadísticas y de eventos de los partidos. A continuación se detallan el tipo de variables que serían necesarias además de las fuentes de donde se podrían obtener:
+
+### 3.1 **Variables necesarias**
+
+-   **Variables de calendario y carga de partidos:**
+    -   Fecha y hora de cada partido.
+    -   Tipo de competición (liga, copa, internacional).
+    -   Localización del partido (casa/fuera).
+    -   Distancia del viaje (km).
+    -   Días de descanso desde el último partido.
+-   **Variables de entrenamiento semanal:**
+    -   Número de sesiones de entrenamiento.
+    -   Duración total de entrenamiento (minutos).
+    -   Intensidad media del entrenamiento (mediante frecuencia cardíaca, RPE).
+    -   Carga de entrenamiento (TRIMP, carga percibida).
+-   **Variables de rendimiento del equipo:**
+    -   Goles anotados y recibidos.
+    -   Posesión del balón (%).
+    -   Número de tiros (a puerta y totales).
+    -   Número de pases y precisión de pases (%).
+
+Todas estas variables se podrían complementar con variables específicas de cada jugador en cada partido (minutos jugados, distancia recorrida, sprints, tiros, pases, goles etc.) y entrenamiento para un análisis más detallado. Sin embargo, esto depende de los recursos disponibles de cada equipo.
+
+### 3.2 **Fuentes de datos**
+
+-   APIs de proveedores de datos deportivos (ej. Opta, Wyscout, StatsBomb).
+-   Datos de GPS y Frecuencia cardíaca de sistemas de monitorización (Catapult, Polar).
+-   Ficheros CSV o Excel propios del departamento de análisis del equipo con datos de la competición y de la planificación del equipo.
+-   Webscraping de páginas oficiales de ligas y competiciones.
+
+Con estos datos disponibles, se podrían utilizar diferentes técnicas para extraer las variables necesarias para responder a las preguntas planteadas en el objetivo del análisis.
+
+------------------------------------------------------------------------
+
+## 4. **Transformaciones y limpieza**
+
+El principal objetivo en esta fase es asegurar que los datos estén en un formato adecuado para el análisis y que sean fiables. Algunos de los principales problemas que se pueden encontrar en este tipo de datos deportivos son los siguientes:
+
+-   Integración de datos de diferentes fuentes con formatos diferentes. Debido a la diversidad de las fuentes un gran desafio es saber como integrarlas en las estructuras adecuadas para que el análisis sea lo más óptimo posible. Además debido a esta inconsistencia de formatos, es necesario unificar unidades (minutos, metros, km/h) y formatos de fechas y asegurarse de evitar la duplicidad de la información.
+-   Valores nulos o faltantes. Es común encontrar datos incompletos, especialmente en variables relacionadas con el rendimiento individual de los jugadores o en datos de GPS.
+-   Datos atípicos o errores de registro. En ocasiones, pueden existir valores erróneos debido a fallos en la captura de datos (por ejemplo distancias excesivamente altas o bajas, errores en la fecha del partido).
+
+En cuanto a las acciones a realizar para la limpieza y transformación de los datos, se podrían llevar a cabo las siguientes:
+
+-   Unificar formatos y estructuras de los datos provenientes de diferentes fuentes (Excel, CSV, JSON).
+-   Eliminar duplicados y gestionar valores nulos (imputación o eliminación según el caso).
+-   Normalizar unidades y formatos (minutos, km, fechas).
+-   Crear variables derivadas relevantes para el análisis, como:
+    -   Días de descanso entre partidos.
+    -   Carga de partidos en la semana previa (número de partidos jugados).
+    -   Rendimiento del equipo en función de las estadísticas de los partidos.
+-   Validar la consistencia de los datos (rango de valores, coherencia temporal).
+
+------------------------------------------------------------------------
+
+## 5. **Análisis y herramientas**
+
+En cuanto a las herramientas y métodos a utilizar para llevar a cabo este análisis, los más importantes son los de visualización ya que permitirán a los analistas y cuerpos técnicos entender mejor las relaciones entre las variables y el impacto del calendario en el rendimiento del equipo. A continuación se detallan los métodos y herramientas necesarias más relevantes:
+
+-   Análisis exploratorio de los datos: antes de comenzar cualquier análisis, es necesario comprender la naturaleza de los datos y sus distribuciones. Esto incluye estadísticas descriptivas (medias, medianas, desviaciones estándar) y visualizaciones básicas (histogramas, diagramas de caja). Con esto nos aseguramos que los datos bajo los que parte el análisis son correctos y si no es así, aplicar las transformaciones necesarias. Este análisis se puede realizar con librerías como `pandas` y `matplotlib` en Python o `dplyr` y `ggplot2` en R.
+
+-   Dashboards y cuadros de mando: para comunicar los resultados de manera efectiva, se pueden crear dashboards interactivos utilizando herramientas como `Streamlit` (Python). Streamlit permite crear aplicaciones web interactivas y está enfocada en el análisis de datos mediante la visuaización de gráficas y diferentes elementos que permiten al usuario interactuar a través de una interfaz. Estos dashboards permitirán a los cuerpos técnicos explorar diferentes aspectos del calendario y su impacto en el rendimiento del equipo.
+
+-   Informes de rendimiento: al margen de la creación de dashboards, se pueden generar informes reproducibles utilizando `Quarto`, que integren análisis estadísticos, visualizaciones y conclusiones de manera clara y estructurada. Esto puede permitir a usuarios no tan técnicos entender los resultados del análisis de manera sencilla y resumida.
+
+Además de estas herramientas centrales, es necesario tener en cuenta otros aspectos como: - Editor de código: utilizar un editor como **RStudio**, **Visual Studio Code** o **Positron** para desarrollar y documentar el análisis de manera eficiente. - Control de versiones: usar **Git** y **GitHub** para gestionar el código y colaborar con otros miembros del equipo. - Despliegue de aplicaciones: si se crean dashboards, se pueden desplegar en plataformas como **Heroku** o **Streamlit Cloud** para facilitar el acceso a los usuarios finales - Gestión de proyecto: para mantener un control sobre la evolución del proyecto de análisis, se pueden utilizar herramientas como **Jira** o el propio **GitHub Projects** para organizar tareas y plazos entre los miembros implicados en el proyecto.
+
+### 5.1 **Uso de LLM**
+
+Para potenciar el análisis, se podría utilizar un modelo de lenguaje grande (LLM) como GPT-4 para generar resúmenes y recomendaciones basadas en los hallazgos del análisis. Esto puede ser especialmente útil para comunicar los resultados de forma clara y en lenguaje no técnico a entrenadores y personal técnico que no estén familiarizados con el análisis de datos.
+
+El uso de LLM se podría aplicar a un chatbot el cual tenga disponible todos los datos de la competición y de los que se alimentan los dashboards e informes finales. A través de diferentes prompts, se podrían generar resúmenes automáticos y recomendaciones basadas en los datos analizados.
+
+-   Ejemplo de prompt sugerido para detectar patrones o relaciones entre variables:
+
+    ```         
+    Dame un resumen sobre la relación entre el rendimiento global del equipo en los últimos 10 partidos, los días de descanso entre partidos y el número total de pases y pases con éxito realizados de media por partido.
+    ```
+
+-   Ejemplo de prompt sugerido para recomendaciones prácticas:
+
+    ```         
+    Basándote en los datos de los siguientes partidos junto a las ubicaciones y las sesiones de entrenamiento necesarias ¿Cuales serían las fechas y horas óptimas para llevar a cabo los viajes y reducir al máximo la fatiga que estos puedan ocasionar? 
+    ```
+
+------------------------------------------------------------------------
+
+## 6. **Visualización y comunicación**
+
+En apartados anteriores se han mencionado diferentes herramientas que permitirían una correcta visualización de los resultados del análisis. A continuación se detallan los gráficos y formatos de presentación más relevantes:
+
+-   Cronograma visual del calendario competitivo: un gráfico de Gantt que muestre los partidos jugados, días de descanso y sesiones de entrenamiento a lo largo de la temporada. Esto ayudaría a visualizar la carga competitiva del equipo.
+-   Diagramas de barras para ver el estado y fatiga del equipo (y por jugador) en función del número de partidos jugados en un periodo determinado (semana, mes).
+-   Gráficos de dispersión para analizar la relación entre días de descanso y rendimiento del equipo (goles, posesión, tiros).
+-   Gráficos de líneas para ver la evolución del rendimiento del equipo a lo largo de la temporada bajo diferentes aspectos.
+
+------------------------------------------------------------------------
+
+## 7. **Gestión del proyecto**
+
+Dada la dualidad de los tipos de presentación (dashboards e informes reproducibles), es fundamental organizar el proyecto de manera clara y estructurada. Como ambos se elaboran con Python junto con Streamlit para la visualización interactiva y Quarto para los informes reproducibles, compartirán gran parte del código por lo que ambos se desarrollan en un único repositorio de Github. Por ejemplos, funciones que dibujen gráficas en base a unos datos específicos de entrada podrán ser utilizadas tanto en el informe como en la aplicación Streamlit. A continuación se detalla de qué manera se organizaría el código y los datos:
+
+```         
+root/
+│├── data/
+│   ├── raw_data/          # Datos originales sin procesar
+│   ├── processed_data/    # Datos limpios y transformados
+│├── logs/
+│   ├── etl/          # Logs durante el proceso ETL    
+│   ├── quarto/       # Logs durante la creación de los informes Quarto
+│   ├── streamlit/    # Logs de la aplicación Streamlit
+│├── app.py           # Código principal de la aplicación Streamlit
+│├── pages/           # Código para las páginas de la aplicación
+│├── reports/         # Informes reproducibles en Quarto
+│   ├── analysis.qmd             
+│├── etl_scripts/     # Scripts para proceso ETL
+│   ├── data_cleaning.py         
+│   ├── data_transformation.py   
+│├── utils/           # Funciones auxiliares reutilizables
+│   ├── visualization.py         
+│   ├── analysis.py              
+```
+
+Para lograr un buen entorno de desarrollo es necesario utilizar Git como herramienta de control de versiones y GitHub para la colaboración y compartición de código. Se implementarían buenas prácticas en cuanto al uso de ramas, commits (y convenciones de nombres), creación de issues y seguimiento del proyecto mediante GitHub Projects.
+
+Por úlitmo para la gestión de errores y logs es necesario implementar técnicas en Python para la captura de errores mediante **try/catch/finally** para los procesos ETL, el informe Quarto y la aplicación Streamlit. A parte de capturar estos errores, es muy importante mantener un registro tanto de los errores como de otra información importante para saber que el funcionamiento de todo esta correcto. Esto se puede conseguir mediante modulos como **logging** de Python, creando logs específicos para cada parte del proyecto (ETL, informe Quarto, aplicación Streamlit).
+
+------------------------------------------------------------------------
+
+## 8. Enlace a repositorio de GitHub
+
+La estructura del proyecto planteado, así como este documento (tanto en el formato .qmd como en .docx) se encuentra disponible en el siguiente repositorio de GitHub: https://github.com/DaniLopez23/POAD-Caso-Practico-Team-Performance-By-Calendar
